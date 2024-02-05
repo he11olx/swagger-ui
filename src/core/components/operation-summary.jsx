@@ -67,25 +67,24 @@ export default class OperationSummary extends PureComponent {
     const allowAnonymous = !hasSecurity || securityIsOptional
     return (
       <div className={`opblock-summary opblock-summary-${method}`} >
+        <OperationSummaryMethod method={method} />
+        <CopyToClipboardBtn textToCopy={`${specPath.get(1)}`} />
         <button
           aria-expanded={isShown}
           className="opblock-summary-control"
           onClick={toggleShown}
         >
-          <OperationSummaryMethod method={method} />
           <div className="opblock-summary-path-description-wrapper">
             <OperationSummaryPath getComponent={getComponent} operationProps={operationProps} specPath={specPath} />
-
             {!showSummary ? null :
               <div className="opblock-summary-description">
                 {toString(resolvedSummary || summary)}
               </div>
             }
           </div>
-
-          {displayOperationId && (originalOperationId || operationId) ? <span className="opblock-summary-operation-id">{originalOperationId || operationId}</span> : null}
         </button>
-        <CopyToClipboardBtn textToCopy={`${specPath.get(1)}`} />
+        <CopyToClipboardBtn textToCopy={originalOperationId || operationId} />
+        {(originalOperationId || operationId) ? <span className="opblock-summary-operation-id">{originalOperationId || operationId}</span> : null}
         {
           allowAnonymous ? null :
             <AuthorizeOperationBtn
